@@ -120,6 +120,14 @@
 			}
 
 		})();
+		
+		// For testing LinkSelector with links whose onclick modifies their href
+		function generateHref(el, url) {
+			// it shouldn't be possible to change page location from here
+			document.location.href = url;
+
+			el.href = url;
+		}
 	</script>
 
 </head>
@@ -273,6 +281,8 @@
 		<div id="selector-follow">
 			<a href="http://example.com/a">a</a>
 			<a href="http://example.com/b">b</a>
+			<a href="" onclick="generateHref(this, 'http://example.com/c');">c</a>
+			<a href="" onclick="generateHref(this, 'http://example.com/d');">d</a>
 		</div>
 
 		<div id="selector-image">

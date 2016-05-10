@@ -105,4 +105,38 @@ describe("Link Selector", function () {
 			});
 		});
 	});
+
+	it("should return correct hrefs when onclick creates them", function () {
+		var selector = new Selector({
+			id: 'a',
+			type: 'SelectorLink',
+			multiple: true,
+			selector: "a.click-link"
+		});
+
+		var dataDeferred = selector.getData($("#selector-follow"));
+
+		waitsFor(function() {
+			return dataDeferred.state() === 'resolved';
+		}, "wait for data extraction", 5000);
+
+		runs(function() {
+			dataDeferred.done(function(data) {
+				expect(data).toEqual([
+					{
+						a: "c",
+						'a-href': "http://example.com/c",
+						_follow: "http://example.com/c",
+						_followSelectorId: "a"
+					},
+					{
+						a: "d",
+						'a-href': "http://example.com/d",
+						_follow: "http://example.com/d",
+						_followSelectorId: "a"
+					}
+				]);
+			});
+		});
+	});
 });
